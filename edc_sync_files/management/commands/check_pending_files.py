@@ -65,9 +65,10 @@ class Command(BaseCommand):
         return pending_files
 
     def check_watchdog_process(self):
-        last_record = self.read_logs().split(':')
-        if last_record[0] == 'ERROR':
-            call_command('start_observer')
+        if self.read_logs():
+            last_record = self.read_logs().split(':')
+            if last_record[0] == 'ERROR':
+                call_command('start_observer')
         return True
 
     def read_logs(self):
@@ -75,4 +76,7 @@ class Command(BaseCommand):
         with open('logs/observer-error.log', "r") as out_file:
             for line in out_file:
                 logs.append(line)
-        return logs[-1]
+        if logs:
+            return logs[-1]
+        return None
+
