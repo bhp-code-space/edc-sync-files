@@ -15,6 +15,8 @@ fake = Faker()
 @tag('json')
 class TestJSONLoadFile(TestCase):
 
+    databases = '__all__'
+
     def setUp(self):
         TestModel.objects.using('client').create(f1=fake.name())
         TestModel.objects.using('client').create(f1=fake.name())

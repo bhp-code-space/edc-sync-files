@@ -23,6 +23,8 @@ log_filename = LOGGING.get('handlers').get('file').get('filename')
 @skip('skip observer tests')
 class TestObserver(TestCase):
 
+    databases = '__all__'
+
     def setUp(self):
         self.paths = {}
         basedir = tempfile.gettempdir()

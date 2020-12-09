@@ -22,6 +22,7 @@ fake = Faker()
 
 @tag('batch_history')
 class TestBatchHistory(TestCase):
+    databases = '__all__'
 
     def setUp(self):
         self.filename = 'file.txt'
@@ -85,6 +86,7 @@ class TestBatchHistory(TestCase):
 
 @tag('batch')
 class TestImportBatch(TestCase):
+    databases = '__all__'
 
     def test_batch_expects_objects(self):
         batch = TransactionImporterBatch()
@@ -107,6 +109,8 @@ class TestImportBatch(TestCase):
 
 @tag('importer')
 class TestTransactionImporter(TestCase):
+    
+    databases = '__all__'
 
     def setUp(self):
         TestModel.objects.using('client').all().delete()

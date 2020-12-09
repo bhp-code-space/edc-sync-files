@@ -10,6 +10,8 @@ from ..transaction import FileArchiver, FileArchiverError
 @tag('archive')
 class TestFileArchiver(TestCase):
 
+    databases = '__all__'
+
     def test_no_parameters(self):
         self.assertRaises(FileArchiverError, FileArchiver)
 

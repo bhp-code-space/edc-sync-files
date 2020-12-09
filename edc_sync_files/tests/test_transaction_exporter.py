@@ -20,6 +20,8 @@ fake = Faker()
 @tag('batch')
 class TestExportBatch(TestCase):
 
+    databases = '__all__'
+
     def setUp(self):
         ExportedTransactionFileHistory.objects.using('client').all().delete()
         OutgoingTransaction.objects.using('client').all().delete()
@@ -59,6 +61,8 @@ class TestExportBatch(TestCase):
 
 @tag('exporter')
 class TestTransactionExporter(TestCase):
+
+    databases = '__all__'
 
     def setUp(self):
         ExportedTransactionFileHistory.objects.using('client').all().delete()
@@ -153,6 +157,8 @@ class TestTransactionExporter(TestCase):
 
 @tag('exporter')
 class TestTransactionExporter2(TestCase):
+
+    databases = '__all__'
 
     def setUp(self):
         ExportedTransactionFileHistory.objects.using('client').all().delete()
