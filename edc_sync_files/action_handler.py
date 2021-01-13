@@ -1,3 +1,4 @@
+import os
 from .confirmation import Confirmation, ConfirmationError
 from .constants import EXPORT_BATCH, SEND_FILES, CONFIRM_BATCH, PENDING_FILES
 from .transaction import TransactionExporter, TransactionExporterError
@@ -24,6 +25,7 @@ class ActionHandler:
             self.using).filter(sent=True).order_by('-sent_datetime')
         self.recently_sent_filenames = [
             obj.filename for obj in self.sent_history[0:20]]
+        self.media_folder = kwargs.get('media_path')
 
     def action(self, label=None, **kwargs):
         self.data = dict(
@@ -35,6 +37,7 @@ class ActionHandler:
             self._export_batch()
         elif label == SEND_FILES:
             self._send_files()
+            self._send_media_files()
         elif label == CONFIRM_BATCH:
             self._confirm_batch()
         elif label == PENDING_FILES:
@@ -47,7 +50,33 @@ class ActionHandler:
     def pending_filenames(self):
         return [
             obj.filename for obj in self.tx_exporter.history_model.objects.using(
-                self.using).filter(sent=False).order_by('-created')]
+                self.using).filter(sent=False).order_by('-created') ]
+
+    @property
+    def media_filenames(self):
+        filenames = []
+        files = os.listdir(self.media_folder) if self.media_folder else None
+        sent_files = self.sent_filenames()
+        if files:
+            filenames = [file for file in files if file not in sent_files]
+        return filenames
+
+    def sent_filenames(self):
+        sent = []
+        media_path = '%(path)s/%(filename)s' % {'path': self.media_folder, 'filename': 'log.txt'}
+        file = open(media_path, 'a+')
+        file.seek(0)
+        sent_files = file.readlines()
+        for l in sent_files:
+            sent.append(l.strip())
+        return sent
+
+    def update_media_log(self, filenames):
+        media_path = '%(path)s/%(filename)s' % {'path': self.media_folder, 'filename': 'log.txt'}
+        f = open(media_path, 'a')
+        for file in filenames:
+            f.write(file+'\n')
+        f.close()
 
     def _export_batch(self):
         try:
@@ -68,6 +97,17 @@ class ActionHandler:
         else:
             self.data.update(
                 last_sent_files=filenames, last_archived_files=filenames)
+
+    def _send_media_files(self):
+        try:
+            filenames = self.tx_file_sender.send_media(
+                filenames=self.media_filenames)
+        except TransactionFileSenderError as e:
+            raise ActionHandlerError(e) from e
+        else:
+            self.update_media_log(filenames)
+            self.data.update(
+                last_media_sent=filenames, last_archived_files=filenames)
 
     def _confirm_batch(self):
         try:
