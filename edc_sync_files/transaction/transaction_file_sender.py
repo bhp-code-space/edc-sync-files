@@ -52,6 +52,7 @@ class TransactionFileSender:
                 with sftp_client.connect(ssh_conn) as sftp_conn:
                     for filename in filenames:
                         sftp_conn.copy(filename=filename)
+                        self.update_media_log(filename)
         except SSHClientError as e:
             raise TransactionFileSenderError(e) from e
         except SFTPClientError as e:
@@ -69,6 +70,12 @@ class TransactionFileSender:
             obj.sent = True
             obj.sent_datetime = get_utcnow()
             obj.save()
+
+    def update_media_log(self, filename):
+        media_path = '%(path)s/%(filename)s' % {'path': self.media_path, 'filename': 'log.txt'}
+        f = open(media_path, 'a')
+        f.write(filename+'\n')
+        f.close()
 
     def archive(self, filename):
         self.file_archiver.archive(filename=filename)

@@ -54,11 +54,13 @@ class ActionHandler:
 
     @property
     def media_filenames(self):
+        ignore = ['.DS_Store', 'log.txt']
         filenames = []
         files = os.listdir(self.media_folder) if self.media_folder else None
         sent_files = self.sent_filenames()
+        ignore.extend(sent_files)
         if files:
-            filenames = [file for file in files if file not in sent_files]
+            filenames = [file for file in files if file not in ignore]
         return filenames
 
     def sent_filenames(self):
@@ -70,13 +72,6 @@ class ActionHandler:
         for l in sent_files:
             sent.append(l.strip())
         return sent
-
-    def update_media_log(self, filenames):
-        media_path = '%(path)s/%(filename)s' % {'path': self.media_folder, 'filename': 'log.txt'}
-        f = open(media_path, 'a')
-        for file in filenames:
-            f.write(file+'\n')
-        f.close()
 
     def _export_batch(self):
         try:
@@ -105,7 +100,6 @@ class ActionHandler:
         except TransactionFileSenderError as e:
             raise ActionHandlerError(e) from e
         else:
-            self.update_media_log(filenames)
             self.data.update(
                 last_media_sent=filenames, last_archived_files=filenames)
 
