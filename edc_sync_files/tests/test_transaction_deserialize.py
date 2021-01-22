@@ -20,6 +20,8 @@ fake = Faker()
 
 @tag('deserialize')
 class TestDeserializer(TestCase):
+    
+    databases = '__all__'
 
     def setUp(self):
         TestModel.objects.using('client').create(f1=fake.name())

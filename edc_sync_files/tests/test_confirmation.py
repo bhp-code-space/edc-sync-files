@@ -14,9 +14,11 @@ from .models import TestModel
 class TestConfirmation(TestCase):
 
     multi_db = True
+    databases = '__all__'
 
     def setUp(self):
         self.using = 'client'
+
         TestModel.objects.using(self.using).create(f1='f1')
         export_path = os.path.join(tempfile.gettempdir(), 'export')
         if not os.path.exists(export_path):

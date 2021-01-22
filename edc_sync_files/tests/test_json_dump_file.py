@@ -17,6 +17,8 @@ fake = Faker()
 @tag('json')
 class TestJSONFile(TestCase):
 
+    databases = '__all__'
+
     def setUp(self):
         ExportedTransactionFileHistory.objects.using('client').all().delete()
         OutgoingTransaction.objects.using('client').all().delete()

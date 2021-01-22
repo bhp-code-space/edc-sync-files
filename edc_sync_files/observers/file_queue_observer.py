@@ -26,7 +26,6 @@ class FileQueueObserver:
         queue.reload(**self.options)
 
         handler = self.handler_cls(queue=queue, **self.options)
-
         # watchdog observer
         observer = self.observer_cls()
         sys.stdout.write(f'\n{observer}\n')

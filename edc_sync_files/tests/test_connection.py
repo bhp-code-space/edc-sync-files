@@ -10,6 +10,8 @@ from ..sftp_client import SFTPClient, SFTPClientError, logger
 
 @tag('connect')
 class TestConnector(TestCase):
+    
+    databases = '__all__'
 
     def test_localhost_trusted(self):
         ssh_client = SSHClient(remote_host='localhost', trusted_host=True)
