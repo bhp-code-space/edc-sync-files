@@ -1,21 +1,20 @@
-import uuid
 import os
 import tempfile
-
-from faker import Faker
+import uuid
 
 from django.db.utils import IntegrityError
 from django.test.testcases import TestCase
 from django.test.utils import tag
-
 from edc_sync.models import OutgoingTransaction
+from faker import Faker
 
-from ..models import ExportedTransactionFileHistory
-from ..transaction import TransactionImporter, TransactionExporter, TransactionImporterBatch
-from ..transaction.transaction_importer import (
-    BatchHistory, BatchHistoryError, BatchError, BatchIsEmpty)
-from .models import TestModel
 from edc_sync_files.transaction.transaction_importer import TransactionImporterError
+from .models import TestModel
+from ..models import ExportedTransactionFileHistory
+from ..transaction import TransactionExporter, TransactionImporter, \
+    TransactionImporterBatch
+from ..transaction.transaction_importer import (BatchError, BatchHistory,
+                                                BatchHistoryError, BatchIsEmpty)
 
 fake = Faker()
 
@@ -73,7 +72,7 @@ class TestBatchHistory(TestCase):
         try:
             batch_history.update(**self.options)
         except BatchHistoryError:
-            self.fail(f'BatchHistoryError unexpectedly not raised.')
+            self.fail('BatchHistoryError unexpectedly not raised.')
 
     def test_batch_history_exists(self):
         """Assert finds history by batch_id.
@@ -109,7 +108,6 @@ class TestImportBatch(TestCase):
 
 @tag('importer')
 class TestTransactionImporter(TestCase):
-    
     databases = '__all__'
 
     def setUp(self):

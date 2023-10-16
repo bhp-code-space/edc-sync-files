@@ -1,8 +1,9 @@
 import os
+
 from .confirmation import Confirmation, ConfirmationError
-from .constants import EXPORT_BATCH, SEND_FILES, CONFIRM_BATCH, PENDING_FILES
+from .constants import CONFIRM_BATCH, EXPORT_BATCH, PENDING_FILES, SEND_FILES
 from .transaction import TransactionExporter, TransactionExporterError
-from .transaction import TransactionFileSenderError, TransactionFileSender
+from .transaction import TransactionFileSender, TransactionFileSenderError
 
 
 class ActionHandlerError(Exception):
@@ -50,7 +51,8 @@ class ActionHandler:
     def pending_filenames(self):
         return [
             obj.filename for obj in self.tx_exporter.history_model.objects.using(
-                self.using).filter(sent=False).order_by('-created') ]
+                self.using).filter(sent=False).order_by('-created')
+        ]
 
     @property
     def media_filenames(self):
@@ -65,12 +67,13 @@ class ActionHandler:
 
     def sent_filenames(self):
         sent = []
-        media_path = '%(path)s/%(filename)s' % {'path': self.media_folder, 'filename': 'log.txt'}
+        media_path = '%(path)s/%(filename)s' % {'path': self.media_folder,
+                                                'filename': 'log.txt'}
         file = open(media_path, 'a+')
         file.seek(0)
         sent_files = file.readlines()
-        for l in sent_files:
-            sent.append(l.strip())
+        for file in sent_files:
+            sent.append(file.strip())
         return sent
 
     def _export_batch(self):

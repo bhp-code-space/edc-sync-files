@@ -23,7 +23,7 @@ class TestQueues(TestCase):
     databases = '__all__'
 
     def setUp(self):
-        self.regexes = [r'(\/\w+)+\.json$', '\w+\.json$']
+        self.regexes = [r'(\/\w+)+\.json$', r'\w+\.json$']
         self.src_path = os.path.join(tempfile.gettempdir(), 'src')
         self.dst_path = os.path.join(tempfile.gettempdir(), 'dst')
         if not os.path.exists(self.src_path):

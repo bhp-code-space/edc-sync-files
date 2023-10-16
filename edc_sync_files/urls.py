@@ -1,5 +1,4 @@
-from django.urls import  path
-
+from django.urls import path
 from django.views.generic.base import RedirectView
 
 from .admin_site import edc_sync_files_admin

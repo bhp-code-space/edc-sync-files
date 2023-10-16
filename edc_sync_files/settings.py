@@ -33,7 +33,7 @@ SECRET_KEY = 'b78lzww*t&x&suam82%0#d3s339c5ufet$j^x#x+59fb)0p6fv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -170,7 +170,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 GIT_DIR = str(PurePath(BASE_DIR).parent)
-KEY_PATH = os.path.join(str(PurePath(BASE_DIR).parent), 'crypto_fields')
+KEY_PATH = os.path.join(PurePath(BASE_DIR).parent, 'crypto_fields')
 EDC_CRYPTO_FIELDS_CLIENT_USING = 'client'
 SHOW_CRYPTO_FORM_DATA = True
 STUDY_OPEN_DATETIME = timezone.datetime(2016, 1, 18)

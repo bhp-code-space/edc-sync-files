@@ -1,9 +1,9 @@
-import paramiko
 import socket
 
+import paramiko
 from paramiko import AutoAddPolicy
-from paramiko.ssh_exception import (
-    BadHostKeyException, AuthenticationException, SSHException)
+from paramiko.ssh_exception import (AuthenticationException, BadHostKeyException,
+                                    SSHException)
 from paramiko.util import ClosingContextManager
 
 
@@ -37,7 +37,7 @@ class SSHClient(ClosingContextManager):
                 AuthenticationException, BadHostKeyException, ConnectionResetError,
                 SSHException, OSError) as e:
             raise SSHClientError(
-                f'{self.username}@{self.remote_host}: \'{e}\.') from e
+                f'{self.username}@{self.remote_host}: \'{e}\'.') from e
         return self
 
     def close(self):

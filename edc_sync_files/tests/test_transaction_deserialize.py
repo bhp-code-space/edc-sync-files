@@ -1,26 +1,23 @@
 import os
 import tempfile
 
-from faker import Faker
-
 from django.apps import apps as django_apps
 from django.test.testcases import TestCase
-from django.test.utils import tag, override_settings
-
+from django.test.utils import override_settings, tag
+from edc_device.constants import CENTRAL_SERVER, CLIENT, NODE_SERVER
 from edc_sync.transaction import deserialize
+from edc_sync.transaction.transaction_deserializer import (TransactionDeserializer,
+                                                           TransactionDeserializerError)
+from faker import Faker
 
-from ..transaction import TransactionExporter
 from .models import TestModel
-from edc_sync.transaction.transaction_deserializer import TransactionDeserializer,\
-    TransactionDeserializerError
-from edc_device.constants import NODE_SERVER, CLIENT, CENTRAL_SERVER
+from ..transaction import TransactionExporter
 
 fake = Faker()
 
 
 @tag('deserialize')
 class TestDeserializer(TestCase):
-    
     databases = '__all__'
 
     def setUp(self):

@@ -26,7 +26,8 @@ def process_queue(queue=None, **kwargs):
             queue.task_done()
             logger.warn(f'{queue}: item={filename}. {e}\n')
             logger.exception(e)
-            sys.stdout.write(style.ERROR(f'{queue}. item={filename}. {e}. Exception has been logged.\n'))
+            sys.stdout.write(style.ERROR(
+                f'{queue}. item={filename}. {e}. Exception has been logged.\n'))
             sys.stdout.flush()
             break
         else:

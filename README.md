@@ -1,8 +1,4 @@
-[![Build Status](https://travis-ci.org/clinicedc/edc-sync-files.svg?branch=develop)](https://travis-ci.org/clinicedc/edc-sync-files)
-[![Coverage Status](https://coveralls.io/repos/clinicedc/edc-sync-files/badge.svg?branch=develop&service=github)](https://coveralls.io/github/clinicedc/edc-sync-files?branch=develop)
-
-
-# edc-sync-files
+# edc-sync-files ![Build Status](https://github.com/bhp-code-space/edc-sync-files/actions/workflows/django.yml/badge.svg) [![Coverage Status](https://codecov.io/gh/bhp-code-space/edc-sync-files/branch/develop/graph/badge.svg?token=0895db75-2f67-497b-818c-cf5828dc6cdd)](https://codecov.io/gh/bhp-code-space/edc-sync-files)
 
 Transfer `edc_sync` transactions as files using SFTP over an SSH connection.
 
