@@ -85,7 +85,8 @@ class TestConnector(TestCase):
             with ssh_client.connect() as c:
                 c.close()
         except SSHClientError as e:
-            self.assertEqual(str(e.__cause__), 'timed out')
+            self.assertEqual(str(e.__cause__),
+                             'No authentication methods available')
         else:
             self.fail('SSHClientError unexpectedly not raised')
 
